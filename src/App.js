@@ -1,8 +1,8 @@
 import originalImage from './img/img-original.jpg';
 import modifiedImage from './img/img-modified.jpg';
 
-import original1 from './img/clean-code1.jpg';
-import modified1 from './img/clean-code2.jpg';
+import original1 from './img/cat.jpg';
+import modified1 from './img/dog.jpg';
 
 import osxDay from './img/osx-day.jpg';
 import osxNight from './img/osx-night.jpg';
@@ -24,11 +24,11 @@ const slider1 = {
 const slider2 = {
     original: {
         url: original1,
-        title: 'Clean code'
+        title: 'Cat'
     },
     modified: {
         url: modified1,
-        title: 'Bad code'
+        title: 'Dog'
     }
 };
 
