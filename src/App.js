@@ -4,6 +4,9 @@ import modifiedImage from './img/img-modified.jpg';
 import original1 from './img/clean-code1.jpg';
 import modified1 from './img/clean-code2.jpg';
 
+import osxDay from './img/osx-day.jpg';
+import osxNight from './img/osx-night.jpg';
+
 import Slider from './components/Slider';
 
 const slider1 = {
@@ -28,6 +31,17 @@ const slider2 = {
     }
 };
 
+const slider3 = {
+    original: {
+        url: osxDay,
+        title: 'Day'
+    },
+    modified: {
+        url: osxNight,
+        title: 'Night'
+    }
+};
+
 const App = () => {
     
     return (
@@ -39,6 +53,11 @@ const App = () => {
 
             <h2>Slider #2</h2>
             <Slider {...slider2}/>
+
+            <br/>
+
+            <h2>Slider #3</h2>
+            <Slider {...slider3}/>
         </div>
     )
 }
