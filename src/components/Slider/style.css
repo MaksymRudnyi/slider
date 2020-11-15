@@ -1,39 +1,8 @@
-  img {
-    max-width: 100%;
-  }
-  
-  /* -------------------------------- 
-  
-  Main components 
-  
-  -------------------------------- */
-  
   .cd-image-container {
     position: relative;
     width: 90%;
     max-width: 768px;
     margin: 0em auto;
-  }
-  .cd-image-container img {
-    display: block;
-  }
-  
-  .cd-image-label {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    color: #ffffff;
-    padding: 1em;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: transform 0.3s 0.7s, opacity 0.3s 0.7s;
-  }
-  .cd-image-label.is-hidden {
-    visibility: hidden;
-  }
-  .is-visible .cd-image-label {
-    opacity: 1;
-    transform: translateY(0);
   }
   
   .cd-resize-img {
@@ -64,28 +33,6 @@
     animation: cd-bounce-in 0.7s;
   }
   
-  @-webkit-keyframes cd-bounce-in {
-    0% {
-      width: 0;
-    }
-    60% {
-      width: 55%;
-    }
-    100% {
-      width: 50%;
-    }
-  }
-  @-moz-keyframes cd-bounce-in {
-    0% {
-      width: 0;
-    }
-    60% {
-      width: 55%;
-    }
-    100% {
-      width: 50%;
-    }
-  }
   @keyframes cd-bounce-in {
     0% {
       width: 0;
@@ -97,6 +44,7 @@
       width: 50%;
     }
   }
+  
   .cd-handle {
     position: absolute;
     height: 44px;

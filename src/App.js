@@ -10,6 +10,7 @@ import osxNight from './img/osx-night.jpg';
 import Slider from './components/Slider';
 
 const slider1 = {
+    delay: 2000,
     original: {
         url: originalImage,
         title: 'Original'

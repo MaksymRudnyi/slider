@@ -1,18 +1,23 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Image from '../Image';
+import Image from './components/Image';
 
 import './style.css';
 
-function Slider({original, modified}) {
+function Slider({original, modified, delay = 0}) {
 
   const [dragElementClass, setDragElementClass] = useState('');
   const [resizeElementClass, setResizeElementClass] = useState('');
+  const [visibleClass, setVisibleClass] = useState('');
   const [isDragStarted, setDragStarted] = useState(false);
   const [sizes, setSizes] = useState({});
   const dragElement = useRef(null);
   const container = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => setVisibleClass('is-visible'), delay)
+  }, [])
 
   const onHandleMouseDown = (e) => {
     e.preventDefault();
@@ -67,8 +72,7 @@ function Slider({original, modified}) {
   }
 
   return (
-    <div className="App">
-      <figure onMouseMove={containerOnMouseMove} onClick={onHandleMouseUp} className="cd-image-container is-visible" ref={container}>
+      <figure onMouseMove={containerOnMouseMove} onClick={onHandleMouseUp} className={`cd-image-container ${visibleClass}`} ref={container}>
         <Image {...original}/>
 
         <div style={{width: sizes.resizableImageWidth}} className={`cd-resize-img ${resizeElementClass}`}>
@@ -81,7 +85,6 @@ function Slider({original, modified}) {
           ref={dragElement}
           className={`cd-handle ${dragElementClass}`}></span>
       </figure>
-    </div>
   );
 }
 

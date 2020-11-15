@@ -1,0 +1,29 @@
+.comparing-image {
+    max-width: 100%;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.cd-image-label {
+    font-family: "Open Sans", sans-serif;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #fff;
+    text-shadow: 0 0 2px #000;
+    white-space: nowrap;
+    padding: 1em;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.3s 0.7s, opacity 0.3s 0.7s;
+  }
+  
+  .cd-image-label.is-hidden {
+    visibility: hidden;
+  }
+
+  .is-visible .cd-image-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
