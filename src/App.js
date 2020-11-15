@@ -1,89 +1,46 @@
-import { useState, useRef } from 'react';
-import './app.css';
-
 import originalImage from './img/img-original.jpg';
 import modifiedImage from './img/img-modified.jpg';
 
-function App() {
+import original1 from './img/clean-code1.jpg';
+import modified1 from './img/clean-code2.jpg';
 
-  const [dragElementClass, setDragElementClass] = useState('');
-  const [resizeElementClass, setResizeElementClass] = useState('');
-  const [isDragStarted, setDragStarted] = useState(false);
-  const [sizes, setSizes] = useState({});
-  const dragElement = useRef(null);
-  const container = useRef(null);
+import Slider from './components/Slider';
 
-  const onHandleMouseDown = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragElementClass('draggable');
-    setResizeElementClass('resizable');
-
-    const dragWidth = dragElement.current.offsetWidth,
-      xPosition =  e.pageX,
-      containerOffset = container.current.offsetLeft,
-      containerWidth = container.current.offsetWidth,
-      minLeft = containerOffset + 10,
-      maxLeft = containerOffset + containerWidth - dragWidth - 10;
-
-    setSizes({
-      ...sizes,
-      dragWidth,
-      xPosition,
-      containerOffset,
-      containerWidth,
-      minLeft,
-      maxLeft
-    });
-
-    setDragStarted(true);
-  }
-
-  const onHandleMouseUp = () => {
-    setDragElementClass('');
-    setResizeElementClass('');
-    setDragStarted(false);
-  }
-
-  const containerOnMouseMove = (e) => {
-    if (!isDragStarted || !e.pageX) {
-      return
-    };
-
-    let leftValue = e.pageX - sizes.dragWidth / 2;
-    if(leftValue < sizes.minLeft ) {
-        leftValue = sizes.minLeft;
-    } else if ( leftValue > sizes.maxLeft) {
-        leftValue = sizes.maxLeft;
+const slider1 = {
+    original: {
+        url: originalImage,
+        title: 'Original'
+    },
+    modified: {
+        url: modifiedImage,
+        title: 'Modified'
     }
+};
 
-    let widthValue = (leftValue + sizes.dragWidth/2 - sizes.containerOffset)*100/sizes.containerWidth+'%';
-  
-    setSizes({
-      ...sizes,
-      resizableImageWidth: widthValue
-    })
-  }
+const slider2 = {
+    original: {
+        url: original1,
+        title: 'Clean code'
+    },
+    modified: {
+        url: modified1,
+        title: 'Bad code'
+    }
+};
 
-  return (
-    <div className="App">
-      <figure onMouseMove={containerOnMouseMove} onClick={() => setDragStarted(false)} className="cd-image-container  is-visible" ref={container}>
-        <img src={originalImage} alt="Original Image" />
-        <span className="cd-image-label" data-type="original">Original</span>
+const App = () => {
+    
+    return (
+        <div>
+            <h2>Slider #1</h2>
+            <Slider {...slider1}/>
 
-        <div style={{width: sizes.resizableImageWidth}} className={`cd-resize-img ${resizeElementClass}`}>
-          <img src={modifiedImage} alt="Modified Image" />
-          <span className="cd-image-label" data-type="modified">Modified</span>
+            <br/>
+
+            <h2>Slider #2</h2>
+            <Slider {...slider2}/>
         </div>
-
-        <span onMouseDown={onHandleMouseDown}
-          style={{left: sizes.resizableImageWidth}}
-          onMouseUp={onHandleMouseUp}
-          ref={dragElement}
-          className={`cd-handle ${dragElementClass}`}></span>
-      </figure>
-    </div>
-  );
+    )
 }
 
 export default App;
