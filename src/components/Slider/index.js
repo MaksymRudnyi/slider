@@ -2,31 +2,26 @@ import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Image from './components/Image';
+import Handle from './components/Handle';
 
 import './style.css';
 
-function Slider({original, modified, delay = 0}) {
-
-  const [dragElementClass, setDragElementClass] = useState('');
-  const [resizeElementClass, setResizeElementClass] = useState('');
-  const [visibleClass, setVisibleClass] = useState('');
+function Slider({ original, modified, delay = 0 }) {
+  const [isVisible, setIsVisible] = useState(false);
   const [isDragStarted, setDragStarted] = useState(false);
   const [sizes, setSizes] = useState({});
   const dragElement = useRef(null);
   const container = useRef(null);
 
   useEffect(() => {
-    setTimeout(() => setVisibleClass('is-visible'), delay)
+    setTimeout(() => setIsVisible(true), delay)
   }, [])
 
-  const onHandleMouseDown = (e) => {
+  const onDragStart = (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    setDragElementClass('draggable');
-    setResizeElementClass('resizable');
 
     const dragWidth = dragElement.current.offsetWidth,
-      xPosition =  e.pageX,
+      xPosition = e.pageX,
       containerOffset = container.current.offsetLeft,
       containerWidth = container.current.offsetWidth,
       minLeft = containerOffset + 10,
@@ -45,9 +40,7 @@ function Slider({original, modified, delay = 0}) {
     setDragStarted(true);
   }
 
-  const onHandleMouseUp = () => {
-    setDragElementClass('');
-    setResizeElementClass('');
+  const onDragStop = () => {
     setDragStarted(false);
   }
 
@@ -57,14 +50,15 @@ function Slider({original, modified, delay = 0}) {
     };
 
     let leftValue = e.pageX - sizes.dragWidth / 2;
-    if(leftValue < sizes.minLeft ) {
-        leftValue = sizes.minLeft;
-    } else if ( leftValue > sizes.maxLeft) {
-        leftValue = sizes.maxLeft;
+
+    if (leftValue < sizes.minLeft) {
+      leftValue = sizes.minLeft;
+    } else if (leftValue > sizes.maxLeft) {
+      leftValue = sizes.maxLeft;
     }
 
-    let widthValue = (leftValue + sizes.dragWidth/2 - sizes.containerOffset)*100/sizes.containerWidth+'%';
-  
+    let widthValue = (leftValue + sizes.dragWidth / 2 - sizes.containerOffset) * 100 / sizes.containerWidth + '%';
+
     setSizes({
       ...sizes,
       resizableImageWidth: widthValue
@@ -72,19 +66,23 @@ function Slider({original, modified, delay = 0}) {
   }
 
   return (
-      <figure onMouseMove={containerOnMouseMove} onClick={onHandleMouseUp} className={`cd-image-container ${visibleClass}`} ref={container}>
-        <Image {...original}/>
+    <figure onMouseMove={containerOnMouseMove}
+      onClick={onDragStop}
+      className={`cd-image-container ${isVisible && 'is-visible'}`}
+      ref={container}>
+      <Image {...original} />
 
-        <div style={{width: sizes.resizableImageWidth}} className={`cd-resize-img ${resizeElementClass}`}>
-          <Image {...modified}/>
-        </div>
+      <div style={{ width: sizes.resizableImageWidth }}
+        className={`cd-resize-img ${isDragStarted && 'resizable'}`}>
+        <Image {...modified} />
+      </div>
 
-        <span onMouseDown={onHandleMouseDown}
-          style={{left: sizes.resizableImageWidth}}
-          onMouseUp={onHandleMouseUp}
-          ref={dragElement}
-          className={`cd-handle ${dragElementClass}`}></span>
-      </figure>
+      <Handle isDragStarted={isDragStarted}
+        onDragStart={onDragStart}
+        onDragStop={onDragStop}
+        positionLeft={sizes.resizableImageWidth}
+        elementRefference={dragElement} />
+    </figure>
   );
 }
 
